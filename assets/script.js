@@ -65,7 +65,7 @@
     toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
   }
   // Personalize aqui com seu perfil completo. Exemplo: https://www.linkedin.com/in/seu-perfil/
-  const LINKEDIN_URL = '';
+  const LINKEDIN_URL = 'https://www.linkedin.com/in/agiovannamendes';
   const linkedinLinks = [...document.querySelectorAll('[data-linkedin-link]')];
   linkedinLinks.forEach(link => {
     if (/^https:\/\/([a-z]{2,3}\.)?linkedin\.com\/in\//i.test(LINKEDIN_URL)) {
