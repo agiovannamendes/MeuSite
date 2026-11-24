@@ -64,24 +64,6 @@
     clearTimeout(toastTimer);
     toastTimer = setTimeout(() => toast.classList.remove('show'), 2600);
   }
-  // Personalize aqui com seu perfil completo. Exemplo: https://www.linkedin.com/in/seu-perfil/
-  const LINKEDIN_URL = 'https://www.linkedin.com/in/agiovannamendes';
-  const linkedinLinks = [...document.querySelectorAll('[data-linkedin-link]')];
-  linkedinLinks.forEach(link => {
-    if (/^https:\/\/([a-z]{2,3}\.)?linkedin\.com\/in\//i.test(LINKEDIN_URL)) {
-      link.href = LINKEDIN_URL;
-      link.target = '_blank';
-      link.rel = 'noopener noreferrer';
-    } else {
-      link.classList.add('is-pending');
-      link.setAttribute('title', 'Link do LinkedIn a configurar');
-      link.addEventListener('click', event => {
-        event.preventDefault();
-        showToast('LinkedIn: adicione o link do seu perfil para ativar.');
-      });
-    }
-  });
-
   // Coloque o arquivo curriculo.pdf junto do index.html.
   // Em sites publicados, os links são ativados automaticamente quando o PDF existir.
   const resumeLinks = [...document.querySelectorAll('[data-resume-link]')];
