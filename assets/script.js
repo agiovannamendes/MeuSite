@@ -15,6 +15,7 @@
   }
 
   toggle?.addEventListener('click', () => {
+    if (!menu) return;
     const opening = toggle.getAttribute('aria-expanded') !== 'true';
     menu.classList.toggle('is-open', opening);
     toggle.setAttribute('aria-expanded', String(opening));
@@ -24,7 +25,7 @@
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
   document.addEventListener('click', (e) => {
     if (!menu?.classList.contains('is-open')) return;
-    if (!menu.contains(e.target) && !toggle.contains(e.target)) closeMenu();
+    if (!menu.contains(e.target) && !toggle?.contains(e.target)) closeMenu();
   });
 
   const sectionNodes = document.querySelectorAll('main section[id]');
@@ -56,9 +57,11 @@
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  document.getElementById('year').textContent = String(new Date().getFullYear());
+  const year = document.getElementById('year');
+  if (year) year.textContent = String(new Date().getFullYear());
 
   function showToast(message) {
+    if (!toast) return;
     toast.textContent = message;
     toast.classList.add('show');
     clearTimeout(toastTimer);
