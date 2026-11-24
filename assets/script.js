@@ -88,12 +88,32 @@
 
   document.getElementById('copy-email')?.addEventListener('click', async () => {
     const email = 'gmasdevops@gmail.com';
+    let copied = false;
     try {
-      if (!navigator.clipboard?.writeText) throw new Error('Clipboard indisponível');
-      await navigator.clipboard.writeText(email);
-      showToast('E-mail copiado!');
-    } catch {
-      showToast('E-mail: ' + email);
+      if (navigator.clipboard?.writeText) {
+        await navigator.clipboard.writeText(email);
+        copied = true;
+      }
+    } catch { /* Tenta o método alternativo abaixo. */ }
+
+    if (!copied) {
+      const field = document.createElement('textarea');
+      const previousFocus = document.activeElement;
+      field.value = email;
+      field.setAttribute('readonly', '');
+      field.style.cssText = 'position:fixed;top:0;left:0;opacity:0;font-size:16px';
+      document.body.appendChild(field);
+      try {
+        field.focus();
+        field.select();
+        field.setSelectionRange(0, field.value.length);
+        copied = document.execCommand('copy');
+      } catch { copied = false; }
+      finally {
+        field.remove();
+        previousFocus?.focus();
+      }
     }
+    showToast(copied ? 'E-mail copiado!' : 'Selecione e copie o endereço de e-mail manualmente.');
   });
 })();
