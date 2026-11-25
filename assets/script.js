@@ -89,6 +89,32 @@
   }
   verifyResume();
 
+  const certificateModal = document.querySelector('.certificate-modal');
+  if (certificateModal) {
+    const certificateContent = certificateModal.querySelector('.certificate-modal-content');
+    const certificateTitle = certificateModal.querySelector('#certificate-modal-title');
+    const certificateLink = certificateModal.querySelector('.certificate-open');
+    document.querySelectorAll('[data-certificate]').forEach(card => {
+      card.addEventListener('click', () => {
+        const { certificate, title, type } = card.dataset;
+        const preview = document.createElement(type === 'pdf' ? 'iframe' : 'img');
+        preview.src = certificate;
+        if (type === 'pdf') preview.title = 'Certificado: ' + title;
+        else preview.alt = 'Certificado: ' + title;
+        certificateTitle.textContent = title;
+        certificateLink.href = certificate;
+        certificateLink.textContent = card.dataset.originalLabel || 'Abrir certificado em nova aba ↗';
+        certificateContent.replaceChildren(preview);
+        certificateModal.showModal();
+      });
+    });
+    certificateModal.querySelector('.certificate-close').addEventListener('click', () => certificateModal.close());
+    certificateModal.addEventListener('click', event => {
+      if (event.target === certificateModal) certificateModal.close();
+    });
+    certificateModal.addEventListener('close', () => certificateContent.replaceChildren());
+  }
+
   document.getElementById('copy-email')?.addEventListener('click', async () => {
     const email = 'gmasdevops@gmail.com';
     let copied = false;
